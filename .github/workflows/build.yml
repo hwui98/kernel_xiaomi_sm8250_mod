@@ -2,10 +2,15 @@ name: Build Kernel
 
 on:
   workflow_dispatch:
+    inputs:
+      command:
+        description: 'Build Command (example: bash build.sh umi 或 bash build.sh umi ksu)'
+        required: true
+        default: 'bash build.sh umi'
 
 jobs:
   build:
-    runs-on: ubuntu-22.04   # 使用较旧的系统，避免 glibc 冲突
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -22,7 +27,7 @@ jobs:
         run: |
           export TOOLCHAIN_PATH="$GITHUB_WORKSPACE/proton-clang/bin"
           export PATH="$TOOLCHAIN_PATH:$PATH"
-          bash build.sh umi${{ github.event.inputs.ksu == 'true' && ' ksu' || '' }}
+          ${{ github.event.inputs.command }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
