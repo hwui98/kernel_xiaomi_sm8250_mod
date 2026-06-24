@@ -85,11 +85,14 @@ clang --version
 KSU_ZIP_STR=NoKernelSU
 if [ "$2" == "ksu" ]; then
     KSU_ENABLE=1
-    KSU_ZIP_STR=SukiSU-SUSFS
+    KSU_ZIP_STR=KernelSU-Next
+    echo "Integrating KernelSU-Next..."
+    # 使用 KernelSU-Next 官方安装脚本
+    curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/main/kernel/setup.sh" | bash -
 else
     KSU_ENABLE=0
+    echo "KernelSU-Next is disabled"
 fi
-
 
 echo "TARGET_DEVICE: $TARGET_DEVICE"
 
