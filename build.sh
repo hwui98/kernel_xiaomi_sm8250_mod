@@ -97,11 +97,10 @@ echo "TARGET_DEVICE: $TARGET_DEVICE"
 
 if [ $KSU_ENABLE -eq 1 ]; then
     echo "KSU is enabled"
-    curl -LSs "https://github.com/liyafe1997/SukiSU-Ultra/raw/4ff14cf0051d04209c4abd5027d99d8e7780ef5b/kernel/setup.sh" | bash -s f4863b20cc8dc0f8cc67418980f022e43014b598
+    echo "Skip SukiSU-Ultra"
 else
     echo "KSU is disabled"
 fi
-
 
 echo "Cleaning..."
 
@@ -314,6 +313,12 @@ scripts/config --file out/.config \
     -e BOOTUP_RECLAIM \
     -e MI_RECLAIM \
     -e RTMM \
+
+make $MAKE_ARGS olddefconfig
+
+   echo "========== KSU CONFIG =========="
+   grep KSU out/.config || true
+   echo "================================"
 
 make $MAKE_ARGS -j$(nproc)
 
